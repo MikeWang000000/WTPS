@@ -13,42 +13,42 @@ import copy
 import sys
 import os
 
-ENABLE_LOGGING = True                               # ÊÇ·ñÆôÓÃÈÕÖ¾
-ENABLE_WARNING = True                               # ÊÇ·ñÆôÓÃ¾¯¸æ£¨½öÏŞWindows²Ù×÷ÏµÍ³£©
-REFRESH_INTERVAL = 5                                # Ë¢ĞÂ¼ä¸ô£¨µ¥Î»£ºs£©
-REQUEST_TIMEOUT = 10                                # ÇëÇó³¬Ê±£¨µ¥Î»£ºs£©
-OUTPUT_ENCODING = "auto"                            # ¿ØÖÆÌ¨Êä³ö±àÂë£¨Èç¹û³öÏÖÂÒÂë¿ÉÉèÖÃÎª¡°GBK¡±»ò¡°UTF-8¡±£©
-COOKIE_PATH = ".cookie"                             # cookieÎÄ¼şÂ·¾¶
-NAME_JSON_PATH = "name.json"                        # ÓÃ»§Ãû-ĞÕÃû¶ÔÕÕ±íÂ·¾¶
-PLACE_JSON_PATH = "place.json"                      # ap-µØµã¶ÔÕÕ±íÂ·¾¶
-TARGET_JSON_PATH = "target.json"                    # ¼àÊÓÄ¿±êÁĞ±íÂ·¾¶
-LOG_DIR_NAME = "logs"                               # ÈÕÖ¾ÎÄ¼ş¼ĞÃû
-LOG_NAME_FORMAT = "%Y_%m_%d.log"                    # ÈÕÖ¾ÎÄ¼ş¸ñÊ½
-LOGIN_USERNAME = "guest"                            # acÓÃ»§Ãû
-LOGIN_PASSWORD = "guest"                            # acÃÜÂë
-CONF_COMMAND = "show ac-config debug client"        # acÖ´ĞĞÃüÁî
-LOGIN_URL = "http://rj-ac.local/login.do"           # acµÇÂ¼µØÖ·
-CONF_URL = "http://rj-ac.local/web_config.do"       # acÖ´ĞĞµØÖ·
+ENABLE_LOGGING = True                               # æ˜¯å¦å¯ç”¨æ—¥å¿—
+ENABLE_WARNING = True                               # æ˜¯å¦å¯ç”¨è­¦å‘Šï¼ˆä»…é™Windowsæ“ä½œç³»ç»Ÿï¼‰
+REFRESH_INTERVAL = 5                                # åˆ·æ–°é—´éš”ï¼ˆå•ä½ï¼šsï¼‰
+REQUEST_TIMEOUT = 10                                # è¯·æ±‚è¶…æ—¶ï¼ˆå•ä½ï¼šsï¼‰
+OUTPUT_ENCODING = "auto"                            # æ§åˆ¶å°è¾“å‡ºç¼–ç ï¼ˆå¦‚æœå‡ºç°ä¹±ç å¯è®¾ç½®ä¸ºâ€œGBKâ€æˆ–â€œUTF-8â€ï¼‰
+COOKIE_PATH = ".cookie"                             # cookieæ–‡ä»¶è·¯å¾„
+NAME_JSON_PATH = "name.json"                        # ç”¨æˆ·å-å§“åå¯¹ç…§è¡¨è·¯å¾„
+PLACE_JSON_PATH = "place.json"                      # ap-åœ°ç‚¹å¯¹ç…§è¡¨è·¯å¾„
+TARGET_JSON_PATH = "target.json"                    # ç›‘è§†ç›®æ ‡åˆ—è¡¨è·¯å¾„
+LOG_DIR_NAME = "logs"                               # æ—¥å¿—æ–‡ä»¶å¤¹å
+LOG_NAME_FORMAT = "%Y_%m_%d.log"                    # æ—¥å¿—æ–‡ä»¶æ ¼å¼
+LOGIN_USERNAME = "guest"                            # acç”¨æˆ·å
+LOGIN_PASSWORD = "guest"                            # acå¯†ç 
+CONF_COMMAND = "show ac-config debug client"        # acæ‰§è¡Œå‘½ä»¤
+LOGIN_URL = "http://rj-ac.local/login.do"           # acç™»å½•åœ°å€
+CONF_URL = "http://rj-ac.local/web_config.do"       # acæ‰§è¡Œåœ°å€
 
-# ½«¹¤×÷Ä¿Â¼ÇĞ»»ÖÁpython½Å±¾ËùÔÚÎÄ¼ş¼Ğ
+# å°†å·¥ä½œç›®å½•åˆ‡æ¢è‡³pythonè„šæœ¬æ‰€åœ¨æ–‡ä»¶å¤¹
 py_dir = os.path.split(os.path.realpath(sys.argv[0]))[0]
 os.chdir(py_dir)
 
-# ±àÂë´¦Àí
+# ç¼–ç å¤„ç†
 if OUTPUT_ENCODING == "auto":
     if platform.system() == "Windows":
         OUTPUT_ENCODING = "GBK"
         os.system("mode con cols=64")
-        # ¼æÈİ·ÇÖĞÎÄWindows
+        # å…¼å®¹éä¸­æ–‡Windows
         os.system("CHCP 936 >NUL")
     else:
         OUTPUT_ENCODING = "UTF-8"
 
-# ´¦Àícookie
+# å¤„ç†cookie
 cookie = cookielib.MozillaCookieJar(COOKIE_PATH)
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
 
-# È«¾Ö±äÁ¿³õÊ¼»¯
+# å…¨å±€å˜é‡åˆå§‹åŒ–
 last_online_macs = set()
 last_mac_place = {}
 mac_to_name = {}
@@ -57,9 +57,9 @@ places = {}
 targets = []
 
 
-# ÈÕÖ¾²¿·Ö£¬stdoutÖØ¶¨Ïò
+# æ—¥å¿—éƒ¨åˆ†ï¼Œstdouté‡å®šå‘
 class LogPrint:
-    # ±¸·İstdout
+    # å¤‡ä»½stdout
     reload(sys)
     stdout = sys.stdout
 
@@ -68,7 +68,7 @@ class LogPrint:
         self.format = name_format
         self.fo = None
 
-    # °´Ê±¼ä¸üĞÂÈÕÖ¾ÎÄ¼şÂ·¾¶
+    # æŒ‰æ—¶é—´æ›´æ–°æ—¥å¿—æ–‡ä»¶è·¯å¾„
     def update(self):
         if not os.path.exists(self.dir_name):
             os.mkdir(self.dir_name)
@@ -89,52 +89,52 @@ class LogPrint:
 
 sys.stdout = LogPrint(LOG_DIR_NAME, LOG_NAME_FORMAT)
 
-# ÆôÓÃ¾¯¸æĞèÒªWindows²Ù×÷ÏµÍ³²¢¿Éµ÷ÓÃcmdow.exe
+# å¯ç”¨è­¦å‘Šéœ€è¦Windowsæ“ä½œç³»ç»Ÿå¹¶å¯è°ƒç”¨cmdow.exe
 if ENABLE_WARNING and not platform.system() == "Windows" or not os.path.exists("cmdow.exe"):
     print "Warning: Warning mode is not supported, turned off automatically."
     ENABLE_WARNING = False
 
 
-# ¾¯¸æÄ£Ê½£¬Ç°ÖÃ²¢¼¤»î´°¿Ú£¬ÉèÖÃÀ¶É«±³¾°
+# è­¦å‘Šæ¨¡å¼ï¼Œå‰ç½®å¹¶æ¿€æ´»çª—å£ï¼Œè®¾ç½®è“è‰²èƒŒæ™¯
 def warn_mode():
     if ENABLE_WARNING:
         os.system("cmdow.exe @ /res /act /top")
         os.system("color 1F")
 
 
-# Õı³£Ä£Ê½£¬È¡ÏûÇ°ÖÃ£¬ºÚÉ«±³¾°
+# æ­£å¸¸æ¨¡å¼ï¼Œå–æ¶ˆå‰ç½®ï¼Œé»‘è‰²èƒŒæ™¯
 def norm_mode():
     if ENABLE_WARNING:
         os.system("cmdow.exe @ /not")
         os.system("color 0F")
 
 
-# µÇÂ¼º¯Êı
+# ç™»å½•å‡½æ•°
 def ac_login():
     global opener, cookie
-    # ¶Ô¡°ÓÃ»§Ãû:ÃÜÂë¡±½øĞĞbase64±àÂë
+    # å¯¹â€œç”¨æˆ·å:å¯†ç â€è¿›è¡Œbase64ç¼–ç 
     login_hash = base64.b64encode("%s:%s" % (LOGIN_USERNAME, LOGIN_PASSWORD))
-    # POSTÊı¾İ
+    # POSTæ•°æ®
     auth_req = "auth=%s" % login_hash
     opener.open(LOGIN_URL, auth_req, timeout=REQUEST_TIMEOUT)
     cookie.save(ignore_discard=True, ignore_expires=True)
 
 
-# »ñÈ¡ac·µ»ØĞÅÏ¢º¯Êı£¬Ê§°ÜÄ¬ÈÏÖØÊÔ3´Î
+# è·å–acè¿”å›ä¿¡æ¯å‡½æ•°ï¼Œå¤±è´¥é»˜è®¤é‡è¯•3æ¬¡
 def get_ac_res(ntry=3):
     global opener
     ntry -= 1
     if ntry < 0:
         raise Exception
-    # POSTÊı¾İ
+    # POSTæ•°æ®
     ip_req = urllib.urlencode({"command": CONF_COMMAND, "mode_url": "exec"})
     response = opener.open(CONF_URL, ip_req, timeout=REQUEST_TIMEOUT)
-    # ·şÎñÆ÷·µ»ØĞÅÏ¢
+    # æœåŠ¡å™¨è¿”å›ä¿¡æ¯
     res = response.read()
-    # Î´ÄÜ»ñÈ¡µ½ĞÅÏ¢
+    # æœªèƒ½è·å–åˆ°ä¿¡æ¯
     lines = res.splitlines()[4:-4]
     if len(lines) == 0:
-        # ÖØĞÂµÇÂ¼
+        # é‡æ–°ç™»å½•
         ac_login()
         return get_ac_res(ntry)
     else:
@@ -143,12 +143,12 @@ def get_ac_res(ntry=3):
 
 def get_ac_info():
     global names, places, targets, last_mac_place, last_online_macs, mac_to_name
-    info = []  # ´¢´æÓÃ»§Êı¾İ±ä¸üĞÅÏ¢
-    online_macs = set()  # ±¾´ÎÔÚÏßµÄmacµØÖ·
-    targets_not_found = copy.copy(targets)  # ±¾´ÎÉĞÎ´ÕÒµ½µÄÄ¿±ê
-    # ·şÎñÆ÷·µ»ØĞÅÏ¢ÕıÎÄ²¿·Ö£¬°´ĞĞ·Ö¸î
+    info = []  # å‚¨å­˜ç”¨æˆ·æ•°æ®å˜æ›´ä¿¡æ¯
+    online_macs = set()  # æœ¬æ¬¡åœ¨çº¿çš„macåœ°å€
+    targets_not_found = copy.copy(targets)  # æœ¬æ¬¡å°šæœªæ‰¾åˆ°çš„ç›®æ ‡
+    # æœåŠ¡å™¨è¿”å›ä¿¡æ¯æ­£æ–‡éƒ¨åˆ†ï¼ŒæŒ‰è¡Œåˆ†å‰²
     lines = get_ac_res().splitlines()[4:-4]
-    # ±éÀúÃ¿¸öÁ´½ÓµÄĞÅÏ¢
+    # éå†æ¯ä¸ªé“¾æ¥çš„ä¿¡æ¯
     for line in lines:
         c_mac = line[0:14].strip()      #
         c_ip = line[15:31].strip()      #
@@ -170,45 +170,45 @@ def get_ac_info():
         c_client = line[329:369].strip()
         c_user = line[370:410].strip()   #
 
-        # ²»´æÔÚÓÃ»§ÃûÔòÒÔmacµØÖ·×÷ÎªÓÃ»§Ãû
+        # ä¸å­˜åœ¨ç”¨æˆ·ååˆ™ä»¥macåœ°å€ä½œä¸ºç”¨æˆ·å
         if c_user == "":
             c_user = c_mac.replace(".", "")
 
-        # ´æÔÚÎ´ÖªĞÅÏ¢Ôò²»½øĞĞ½âÎö
+        # å­˜åœ¨æœªçŸ¥ä¿¡æ¯åˆ™ä¸è¿›è¡Œè§£æ
         if c_user not in names:
             names[c_user] = c_user
         if c_ap not in places:
             places[c_ap] = c_ap
 
-        # ÓÉÊı¾İ½âÎöµ½µÄĞÕÃûºÍµØµã
+        # ç”±æ•°æ®è§£æåˆ°çš„å§“åå’Œåœ°ç‚¹
         c_name = names[c_user]
         c_place = places[c_ap]
 
-        # ´¦ÀíÄ¿±êÓÃ»§ĞÅÏ¢
+        # å¤„ç†ç›®æ ‡ç”¨æˆ·ä¿¡æ¯
         if c_name in targets or targets == []:
             if c_name in targets_not_found and not targets == []:
                 targets_not_found.remove(c_name)
             online_macs.add(c_mac)
             mac_to_name[c_mac] = c_name
-            # Êä³öÔÚÏßÓÃ»§ĞÅÏ¢
+            # è¾“å‡ºåœ¨çº¿ç”¨æˆ·ä¿¡æ¯
             print "%s  %s  %s" % (c_name.rjust(12), ("%s (%sdB)" % (c_place, c_rssi)).ljust(31), c_mac)
-            # ¼ì²âÎ»ÖÃ±ä¶¯
+            # æ£€æµ‹ä½ç½®å˜åŠ¨
             if c_mac in last_mac_place and not last_mac_place[c_mac] == c_place:
                 warn_mode()
                 info.append("<< [ %s ] changed from [ %s ] to [ %s ] >>" % (c_name, last_mac_place[c_mac], c_place))
-            # ±£´æ±¾´ÎÎ»ÖÃÓëÏÂ´Î¶Ô±È
+            # ä¿å­˜æœ¬æ¬¡ä½ç½®ä¸ä¸‹æ¬¡å¯¹æ¯”
             last_mac_place[c_mac] = c_place
 
-    # Êä³öÃ»ÓĞÊı¾İµÄÄ¿±êÓÃ»§
+    # è¾“å‡ºæ²¡æœ‰æ•°æ®çš„ç›®æ ‡ç”¨æˆ·
     for c_name in targets_not_found:
         print "%s  %s" % (c_name.rjust(12), "No Data".ljust(31))
 
-    # ¼ì²âĞÂÓÃ»§
+    # æ£€æµ‹æ–°ç”¨æˆ·
     for c_mac in (online_macs - last_online_macs):
         warn_mode()
         info.append("<< [ %s ] found at [ %s ] >>" % (mac_to_name[c_mac], last_mac_place[c_mac]))
 
-    # ¼ì²âÔ­ÓĞÓÃ»§¶ªÊ§
+    # æ£€æµ‹åŸæœ‰ç”¨æˆ·ä¸¢å¤±
     for c_mac in (last_online_macs - online_macs):
         warn_mode()
         info.append("<< [ %s ] lost at [ %s ] >>" % (mac_to_name[c_mac], last_mac_place[c_mac]))
@@ -216,10 +216,10 @@ def get_ac_info():
 
     print "================================="
 
-    # Êä³öµ±Ç°Ê±¼ä
+    # è¾“å‡ºå½“å‰æ—¶é—´
     print time.ctime()
 
-    # Êä³öÓÃ»§Êı¾İ±ä¸üĞÅÏ¢
+    # è¾“å‡ºç”¨æˆ·æ•°æ®å˜æ›´ä¿¡æ¯
     for n in info:
         print n
     last_online_macs = online_macs
@@ -227,28 +227,28 @@ def get_ac_info():
 
 def loop():
     global names, places, targets
-    # ¶ÁÈ¡ÅäÖÃĞÅÏ¢
-    # ÓÃ»§Ãû-ĞÕÃû¶ÔÕÕ±í
+    # è¯»å–é…ç½®ä¿¡æ¯
+    # ç”¨æˆ·å-å§“åå¯¹ç…§è¡¨
     try:
         names = eval(open(NAME_JSON_PATH).read())
     except Exception:
         print "Warning: Name json file read failed, use default instead."
         names = {}
-    # ap-µØµã¶ÔÕÕ±í
+    # ap-åœ°ç‚¹å¯¹ç…§è¡¨
     try:
         places = eval(open(PLACE_JSON_PATH).read())
     except Exception:
         print "Warning: Place json file read failed, use default instead."
         places = {}
-    # ¼àÊÓÄ¿±êÁĞ±í
+    # ç›‘è§†ç›®æ ‡åˆ—è¡¨
     try:
         targets = eval(open(TARGET_JSON_PATH).read())
     except Exception:
         print "Warning: Target json file read failed, use default instead."
         targets = []
-    # »Ö¸´Õı³£Ä£Ê½
+    # æ¢å¤æ­£å¸¸æ¨¡å¼
     norm_mode()
-    # ´òÓ¡²¿·Ö¿ªÊ¼
+    # æ‰“å°éƒ¨åˆ†å¼€å§‹
     print "Wireless Teacher Positioning System (WTPS) Radar v%s" % __VERSION__
     print "------ Scaning ------"
     get_ac_info()
@@ -256,15 +256,15 @@ def loop():
 
 
 print "\nInfo: Program started at %s.\n" % time.ctime()
-# ¿ªÊ¼Ñ­»·
+# å¼€å§‹å¾ªç¯
 while True:
     try:
         loop()
-        # µÈ´ıÏÂ´ÎÑ­»·
+        # ç­‰å¾…ä¸‹æ¬¡å¾ªç¯
         time.sleep(REFRESH_INTERVAL)
         print "\n\n"
     except KeyboardInterrupt:
-        # ·ÀÖ¹Îó°´ Ctrl+C µ¼ÖÂ³ÌĞòÍË³ö
+        # é˜²æ­¢è¯¯æŒ‰ Ctrl+C å¯¼è‡´ç¨‹åºé€€å‡º
         if raw_input("Exit? (y/n)") == "y":
             exit()
         else:

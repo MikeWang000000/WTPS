@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 # -*- coding: GBK -*-
 """
-    ´Ë½Å±¾ÓÃÓÚÄ£ÄâÎŞÏßAC·şÎñ¶Ë¡£
+    æ­¤è„šæœ¬ç”¨äºæ¨¡æ‹Ÿæ— çº¿ACæœåŠ¡ç«¯ã€‚
 """
 import BaseHTTPServer
 import SocketServer
@@ -55,7 +55,7 @@ class ServerHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "text/plain")
             self.end_headers()
-            # Ä£ÄâÑÓ³Ù
+            # æ¨¡æ‹Ÿå»¶è¿Ÿ
             time.sleep(0.25)
             self.wfile.write(console_response())
         else:
@@ -92,10 +92,10 @@ records = [teacher_a, teacher_b]
 
 def console_response():
     """
-    ´Ëº¯ÊıÓÃÓÚÄ£Äâ½ÌÊ¦µÄÒÔÏÂĞĞÎª£º
-        ÍõÀÏÊ¦£º´Ó°ì¹«ÊÒµ½½ÌÊÒÑ²²é£¬È»ºó»Øµ½°ì¹«ÊÒ£»
-        ËÎÀÏÊ¦£ºÒ»Ö±Í£ÁôÔÚ°ì¹«ÊÒ£»
-        ÕÅÀÏÊ¦£ºÔÚ²Ù³¡ÅÜ²½£¬ĞÅºÅ²»ÎÈ¶¨¡£
+    æ­¤å‡½æ•°ç”¨äºæ¨¡æ‹Ÿæ•™å¸ˆçš„ä»¥ä¸‹è¡Œä¸ºï¼š
+        ç‹è€å¸ˆï¼šä»åŠå…¬å®¤åˆ°æ•™å®¤å·¡æŸ¥ï¼Œç„¶åå›åˆ°åŠå…¬å®¤ï¼›
+        å®‹è€å¸ˆï¼šä¸€ç›´åœç•™åœ¨åŠå…¬å®¤ï¼›
+        å¼ è€å¸ˆï¼šåœ¨æ“åœºè·‘æ­¥ï¼Œä¿¡å·ä¸ç¨³å®šã€‚
 
     :return: None
     """
@@ -128,7 +128,7 @@ def console_response():
 
     content = "~\n~\n~\n~\n"
     for rec in records:
-        # Ä£ÄâRSSI²¨¶¯
+        # æ¨¡æ‹ŸRSSIæ³¢åŠ¨
         rec.rssi = int(rec.rssi) // 10 * 10 + random.randint(0, 9)
         content += (str(rec) + "\n")
     content += "~\n~\n~\n~\n"
