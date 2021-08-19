@@ -1,2 +1,3 @@
 * text=auto
-* encoding=GBK
+* text encoding=GBK
+* text working-tree-encoding=GBK
