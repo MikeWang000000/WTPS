@@ -26,7 +26,7 @@
 
 ![WTPS控制台](./.readme_img/radar.png)
 
-\* 此功能需要调用`cmdow.exe`，在macOS等系统下WTPS仅打印位置变动，而不会有醒目视觉提醒。
+\* 此功能需要调用`cmdow.exe`，在macOS等系统下WTPS仅打印位置变动，而不会有醒目视觉提醒。有关`cmdow.exe`杀毒软件误报问题，请参照[此处](https://github.com/ritchielawrence/cmdow#is-cmdow-malware)。
 
 
 ## 运行环境
@@ -36,6 +36,7 @@
  
 操作系统：Windows（推荐）／Android（使用QPython）／macOS／Linux
 
+辅助工具：Cmdow (https://github.com/ritchielawrence/cmdow)
 
 ## 配置文件说明
 >* 为了方便使用Windows内置的记事本直接修改配置文件，WTPS的配置文件均使用`GBK`编码。
